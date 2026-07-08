@@ -30,16 +30,16 @@ project/
 Codex:
 
 ```bash
-python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
-  --repo MigoXLab/html-prototype-workspace \
-  --path . \
-  --name html-prototype-workspace \
-  --method git
+rm -rf ~/.codex/skills/html-prototype-workspace
+git clone https://github.com/MigoXLab/html-prototype-workspace.git ~/.codex/skills/html-prototype-workspace
 ```
+
+Restart Codex after installation.
 
 Claude Code:
 
 ```bash
+rm -rf ~/.claude/skills/html-prototype-workspace
 git clone https://github.com/MigoXLab/html-prototype-workspace.git ~/.claude/skills/html-prototype-workspace
 ```
 
