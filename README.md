@@ -33,7 +33,8 @@ Codex:
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
   --repo MigoXLab/html-prototype-workspace \
   --path . \
-  --name html-prototype-workspace
+  --name html-prototype-workspace \
+  --method git
 ```
 
 Claude Code:
