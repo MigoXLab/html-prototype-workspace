@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML Sidebar Tabs"
+  short_description: "Assemble tabbed HTML prototypes"
+  default_prompt: "Use $html-prototype-workspace to organize these HTML pages into a shared prototype workspace."

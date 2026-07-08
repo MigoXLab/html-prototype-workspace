@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML Prototype</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #17181c;
+      --muted: #687083;
+      --line: #dfe3ea;
+      --active: #2563eb;
+      --active-bg: #e8f0ff;
+      --shadow: 0 12px 30px rgba(18, 28, 45, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 22px 16px;
+      border-right: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .brand {
+      min-height: 40px;
+      padding: 0 8px;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .brand-subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .nav-button {
+      width: 100%;
+      min-height: 38px;
+      padding: 9px 10px;
+      border: 0;
+      border-radius: 8px;
+      color: var(--muted);
+      background: transparent;
+      font: inherit;
+      font-size: 14px;
+      line-height: 1.25;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .nav-button:hover {
+      color: var(--text);
+      background: #f1f3f7;
+    }
+
+    .nav-button:focus-visible {
+      outline: 2px solid var(--active);
+      outline-offset: 2px;
+    }
+
+    .nav-button[aria-current="page"] {
+      color: var(--active);
+      background: var(--active-bg);
+      font-weight: 700;
+    }
+
+    .content {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      min-width: 0;
+      min-height: 100vh;
+    }
+
+    .content-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 68px;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(14px);
+    }
+
+    .page-title {
+      margin: 0;
+      overflow: hidden;
+      font-size: 18px;
+      font-weight: 750;
+      line-height: 1.2;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .open-link {
+      flex: 0 0 auto;
+      color: var(--active);
+      font-size: 13px;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .open-link:hover {
+      text-decoration: underline;
+    }
+
+    .frame-wrap {
+      position: relative;
+      min-height: 0;
+      padding: 16px;
+    }
+
+    .status {
+      position: absolute;
+      inset: 16px;
+      display: none;
+      place-items: center;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.75);
+      z-index: 1;
+    }
+
+    .status.is-visible {
+      display: grid;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: calc(100vh - 100px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 760px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .sidebar {
+        gap: 12px;
+        padding: 14px 12px 10px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand {
+        padding: 0 2px;
+      }
+
+      .nav {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .nav-button {
+        flex: 0 0 auto;
+        width: auto;
+        white-space: nowrap;
+      }
+
+      .content {
+        min-height: 0;
+      }
+
+      .content-header {
+        min-height: 56px;
+        padding: 12px;
+      }
+
+      .frame-wrap {
+        padding: 10px;
+      }
+
+      .status {
+        inset: 10px;
+      }
+
+      iframe {
+        min-height: calc(100vh - 170px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Prototype navigation">
+      <div class="brand">
+        <h1 class="brand-title">HTML Prototype</h1>
+        <p class="brand-subtitle">HTML prototype</p>
+      </div>
+      <nav class="nav" id="tabNav" aria-label="Pages"></nav>
+    </aside>
+
+    <main class="content">
+      <header class="content-header">
+        <h2 class="page-title" id="pageTitle"></h2>
+        <a class="open-link" id="openLink" href="#" target="_blank" rel="noreferrer">Open page</a>
+      </header>
+      <section class="frame-wrap" aria-live="polite">
+        <div class="status is-visible" id="status">Loading page...</div>
+        <iframe id="contentFrame" title="Prototype page"></iframe>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const shellTitle = "HTML Prototype";
+    const routes = [
+      { id: "module-one", label: "模块一", src: "tabs/module-one/index.html" },
+      { id: "module-two", label: "模块二", src: "tabs/module-two/index.html" }
+    ];
+    const defaultRouteId = routes[0]?.id;
+    const nav = document.getElementById("tabNav");
+    const frame = document.getElementById("contentFrame");
+    const status = document.getElementById("status");
+    const pageTitle = document.getElementById("pageTitle");
+    const openLink = document.getElementById("openLink");
+
+    function routeFromHash() {
+      const id = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+      return routes.find((route) => route.id === id) || routes.find((route) => route.id === defaultRouteId) || routes[0];
+    }
+
+    function setActive(route) {
+      document.querySelectorAll(".nav-button").forEach((button) => {
+        const isActive = button.dataset.routeId === route.id;
+        button.setAttribute("aria-current", isActive ? "page" : "false");
+      });
+    }
+
+    function showRoute(route) {
+      if (!route) return;
+      setActive(route);
+      pageTitle.textContent = route.label;
+      openLink.href = route.src;
+      status.textContent = "Loading page...";
+      status.classList.add("is-visible");
+      if (frame.getAttribute("src") !== route.src) {
+        frame.src = route.src;
+      } else {
+        status.classList.remove("is-visible");
+      }
+      document.title = `${route.label} - ${shellTitle}`;
+    }
+
+    routes.forEach((route) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "nav-button";
+      button.dataset.routeId = route.id;
+      button.textContent = route.label;
+      button.addEventListener("click", () => {
+        window.location.hash = encodeURIComponent(route.id);
+      });
+      nav.appendChild(button);
+    });
+
+    frame.addEventListener("load", () => {
+      status.classList.remove("is-visible");
+    });
+
+    window.addEventListener("hashchange", () => showRoute(routeFromHash()));
+
+    if (!window.location.hash && defaultRouteId) {
+      window.location.replace(`#${encodeURIComponent(defaultRouteId)}`);
+    } else {
+      showRoute(routeFromHash());
+    }
+  </script>
+</body>
+</html>
